@@ -1,54 +1,39 @@
 <?php
+include("conecta.php");
 
-include('conecta.php');
+// Dados do participante
+$nome = $mysqli->real_escape_string($_POST['nome']);
+$telefone = $mysqli->real_escape_string($_POST['telefone']);
+$email = $mysqli->real_escape_string($_POST['email']);
 
-?>
+// Perguntas do questionário
+$q1 = $mysqli->real_escape_string($_POST['q1']);
+$q2 = $mysqli->real_escape_string($_POST['q2']);
+$q3 = $mysqli->real_escape_string($_POST['q3']);
+$q4 = $mysqli->real_escape_string($_POST['q4']);
+$q5 = $mysqli->real_escape_string($_POST['q5']);
+$q6 = $mysqli->real_escape_string($_POST['q6']);
+$q7 = $mysqli->real_escape_string($_POST['q7']);
+$q8 = $mysqli->real_escape_string($_POST['q8']);
+$q9 = $mysqli->real_escape_string($_POST['q9']);
+$q10 = $mysqli->real_escape_string($_POST['q10']);
+$q11 = $mysqli->real_escape_string($_POST['q11']);
+$q12 = $mysqli->real_escape_string($_POST['q12']);
 
-<?php
+// Inserindo no banco
+$query = "
+INSERT INTO $tabela
+(nome, telefone, email, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12)
+VALUES
+('$nome', '$telefone', '$email', '$q1', '$q2', '$q3', '$q4', '$q5', '$q6', '$q7', '$q8', '$q9', '$q10', '$q11', '$q12')
+";
 
-$nome = $_POST['nome'];
-$email = $_POST['email'];
-$telefone = $_POST['telefone'];
-$cpf = $_POST['cpf'];
-$conceito = $_POST['conceito'];
-$coment_um = $_POST['coment_um'];
-$tecnologias = $_POST['tecnologias'];
-$funcionalidades = $_POST['funcionalidades'];
-$coment_dois = $_POST['coment_dois'];
-$mascote = $_POST['mascote'];
-$caracteristicas = $_POST['caracteristicas'];
-
-$query = "INSERT INTO $tabela VALUES ('NULL',
-'$nome',
-'$email',
-'$telefone',
-'$cpf',
-'$conceito',
-'$coment_um',
-'$tecnologias',
-'$funcionalidades',  
-'$coment_dois',
-'$mascote',
-'$caracteristicas')";
-
-$mysqli = new mysqli($host, $login, $password, $bd);
-
-if ($mysqli->connect_error) {
-  die("Erro na conexão com o banco de dados: " . $mysqli->connect_error);
-}
-
-$resultado = $mysqli->query($query);
-
-if ($resultado) {
-  echo "Questionário Back-End foi respondido com sucesso.";
+if ($mysqli->query($query)) {
+    echo "<h2>✅ Questionário gravado com sucesso!</h2>";
+    echo "<p><a href='index.php'>Voltar ao formulário</a></p>";
 } else {
-  echo "Erro na consulta: " . $mysqli->error;
+    echo "❌ Erro ao gravar: " . $mysqli->error;
 }
 
-$mysqli->close(); 
+$mysqli->close();
 ?>
-
-
-
-
-
